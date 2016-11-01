@@ -8,7 +8,7 @@ A small library for parsing out common social elements such as hashtags, mention
 * Support for parsing out http links
 * Review use cases to define final public interface
 
-## Installation (not on hex yet!)
+## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
 

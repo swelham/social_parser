@@ -5,6 +5,8 @@ defmodule SocialParser.Mixfile do
     [app: :social_parser,
      version: "0.1.0",
      elixir: "~> 1.3",
+     description: description(),
+     package: package(),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]
@@ -27,6 +29,17 @@ defmodule SocialParser.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [{:ex_doc, ">= 0.14.0", only: :dev}]
+  end
+
+  defp description do
+    "A small library for parsing out common social elements such as hashtags, mentions and urls."
+  end
+
+  defp package do
+    [name: :social_parser,
+     maintainers: ["swelham"],
+     licenses: ["MIT"],
+     links: %{"GitHub" => "https://github.com/swelham/social_parser"}]
   end
 end

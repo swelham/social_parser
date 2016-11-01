@@ -1,5 +1,8 @@
 defmodule SocialParser do
-
+  @moduledoc """
+  SocialParser is used to parse out common social message commponents
+  such as hashtags, mentions and urls.
+  """
   defmacro is_breaking_char(c) do
     quote do
       unquote(c) == ?\s or
@@ -9,6 +12,12 @@ defmodule SocialParser do
     end
   end
 
+  @doc """
+  Returns a list of hashtags for the given `message`
+
+      iex> SocialParser.parse_hashtags("some #message with #tags")
+      ["#message", "#tags"]
+  """
   def parse_hashtags(message) do
     message
       |> parse([])
