@@ -1,6 +1,3 @@
-<<<<<<< f4769bdec57f106edfbcaf02f04271c33239c24b
-# social_parser
-=======
 # SocialParser
 
 **TODO: Add description**
@@ -24,5 +21,3 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
       [applications: [:social_parser]]
     end
     ```
-
->>>>>>> initial commit
