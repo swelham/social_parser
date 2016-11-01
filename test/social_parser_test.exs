@@ -14,4 +14,11 @@ defmodule SocialParserTest do
 
     assert tags == ["#test", "#message", "#a", "#test"]
   end
+
+  test "parse_hashtags should separate joined hashtags" do
+    message = "this is a #test#message"
+    tags = SocialParser.parse_hashtags(message)
+
+    assert tags == ["#test", "#message"]
+  end
 end
