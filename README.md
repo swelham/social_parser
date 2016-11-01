@@ -10,20 +10,18 @@ A small library for parsing out common social elements such as hashtags, mention
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+Add `social_parser` to your list of dependencies in `mix.exs`:
 
-  1. Add `social_parser` to your list of dependencies in `mix.exs`:
+  ```elixir
+  def deps do
+    [{:social_parser, "~> 0.1.0"}]
+  end
+  ```
 
-    ```elixir
-    def deps do
-      [{:social_parser, "~> 0.1.0"}]
-    end
-    ```
+Ensure `social_parser` is started before your application:
 
-  2. Ensure `social_parser` is started before your application:
-
-    ```elixir
-    def application do
-      [applications: [:social_parser]]
-    end
-    ```
+  ```elixir
+  def application do
+    [applications: [:social_parser]]
+  end
+  ```
