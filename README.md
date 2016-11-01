@@ -4,7 +4,6 @@ A small library for parsing out common social elements such as hashtags, mention
 
 # Todo
 
-* Support for parsing out mentions (including `@name` and `+name`)
 * Support for parsing out http links
 * Review use cases to define final public interface
 
