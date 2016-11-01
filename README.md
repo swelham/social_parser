@@ -17,11 +17,3 @@ Add `social_parser` to your list of dependencies in `mix.exs`:
     [{:social_parser, "~> 0.1.0"}]
   end
   ```
-
-Ensure `social_parser` is started before your application:
-
-  ```elixir
-  def application do
-    [applications: [:social_parser]]
-  end
-  ```
