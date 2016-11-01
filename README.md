@@ -13,6 +13,6 @@ Add `social_parser` to your list of dependencies in `mix.exs`:
 
   ```elixir
   def deps do
-    [{:social_parser, "~> 0.1.0"}]
+    [{:social_parser, "~> 0.2.0"}]
   end
   ```
