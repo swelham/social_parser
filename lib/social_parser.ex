@@ -3,7 +3,7 @@ defmodule SocialParser do
   SocialParser is used to parse out common social message commponents
   such as hashtags, mentions and urls.
   """
-  
+
   defmacrop is_breaking_char(c) do
     quote do
       unquote(c) == ?\s or
@@ -41,14 +41,14 @@ defmodule SocialParser do
   defp parse(<<>>, state, type) do
     Map.put(state, type, Enum.reverse(state[type]))
   end
-  defp parse(<<?#::utf8, rest::binary>>, state, type) do
-    parse_component(rest, state, "#", type)
+  defp parse(<<?#::utf8, rest::binary>>, state, :tags) do
+    parse_component(rest, state, "#", :tags)
   end
-  defp parse(<<?@::utf8, rest::binary>>, state, type) do
-    parse_component(rest, state, "@", type)
+  defp parse(<<?@::utf8, rest::binary>>, state, :mentions) do
+    parse_component(rest, state, "@", :mentions)
   end
-  defp parse(<<?+::utf8, rest::binary>>, state, type) do
-    parse_component(rest, state, "+", type)
+  defp parse(<<?+::utf8, rest::binary>>, state, :mentions) do
+    parse_component(rest, state, "+", :mentions)
   end
   defp parse(<<c::utf8, rest::binary>>, state, type) do
     parse(rest, state, type)

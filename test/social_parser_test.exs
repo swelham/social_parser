@@ -9,7 +9,7 @@ defmodule SocialParserTest do
   end
 
   test "parse_hashtags should return a list of found hashtags" do
-    message = "this is a #test #message with #a few #test tags!"
+    message = "@you this is a #test #message with #a few #test tags!"
     tags = SocialParser.parse_hashtags(message)
 
     assert tags == %{tags: ["#test", "#message", "#a", "#test"]}
@@ -23,23 +23,23 @@ defmodule SocialParserTest do
   end
 
   test "parse_mentions should return a list of found mentions using @" do
-    message = "this is @someones test message from @no_one"
+    message = "this is @someones #test message from @no_one"
     mentions = SocialParser.parse_mentions(message)
 
     assert mentions == %{mentions: ["@someones", "@no_one"]}
   end
 
   test "parse_mentions should return a list of found mentions using +" do
-    message = "this is +someones test message from +no_one"
+    message = "this is +someones #test message from +no_one"
     mentions = SocialParser.parse_mentions(message)
 
     assert mentions == %{mentions: ["+someones", "+no_one"]}
   end
 
   test "parse_hashtags should separate joined mentions" do
-    message = "this is a @you@me"
-    tags = SocialParser.parse_hashtags(message)
+    message = "this is a @you@me +me+you"
+    mentions = SocialParser.parse_mentions(message)
 
-    assert tags == %{tags: ["@you", "@me"]}
+    assert mentions == %{mentions: ["@you", "@me", "+me", "+you"]}
   end
 end
