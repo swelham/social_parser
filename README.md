@@ -2,18 +2,13 @@
 
 A small library for parsing out common social elements such as hashtags, mentions and urls.
 
-# Todo
-
-* Support for parsing out http links
-* Review use cases to define final public interface
-
 ## Usage
 
 Install by adding `social_parser` to your list of dependencies in `mix.exs`:
 
   ```elixir
   def deps do
-    [{:social_parser, "~> 0.3.0"}]
+    [{:social_parser, "~> 0.4.0"}]
   end
   ```
 
@@ -23,19 +18,21 @@ And then run the mix task to download and compile social_parser:
   mix deps.get
   ```
 
-Once installed you can find hashtags and mentions like so:
-  
+Once installed you can find parse out the social components like so:
+
   ```elixir
   defmodule SocialParserTest do
     def do_social_stuff() do
-        message = "Hi @you this a #test message from +me"
+        message = "Hi @you check out http://example.com/ that +someone hosted #examples"
 
-        tags = SocialParser.parse_hashtags(message)
+        components = SocialParser.parse(message)
 
-        mentions = SocialParser.parse_mentions(message)
-
-        IO.inspect(tags)       # %{tags: ["#test"]}
-        IO.inspect(mentions)   # %{mentions: ["@you", "+me"]}
+        IO.inspect(components)
+        # %{
+        #    tags: ["#test"]},
+        #    mentions: ["@you", "+someone"]},
+        #    links: ["http://example.com/"]}
+        # }
     end
   end
   ```
