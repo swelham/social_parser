@@ -4,66 +4,90 @@ defmodule SocialParser do
   such as hashtags, mentions and urls.
   """
 
-  defmacrop is_breaking_char(c) do
+  defmacrop is_whitespace(c) do
     quote do
       unquote(c) == ?\s or
       unquote(c) == ?\t or
-      unquote(c) == ?\n or
-      unquote(c) == ?# or
-      unquote(c) == ?@ or
-      unquote(c) == ?+
+      unquote(c) == ?\n
+    end
+  end
+
+  defmacrop is_breaking_char(c, type) do
+    quote do
+        unquote(type) != :links and
+        (
+          is_whitespace(unquote(c)) or
+          unquote(c) == ?# or
+          unquote(c) == ?@ or
+          unquote(c) == ?+
+        )
     end
   end
 
   @doc """
-  Returns a list of hashtags for the given `message`
+  Returns a map containing all social components found for the given `message`
 
-      iex> SocialParser.parse_hashtags("some #message with #tags")
-      %{tags: ["#message", "#tags"]}
+  Prefixes used
+
+  * `#` for hashtags
+  * `@` or `+` for mentions
+  * `http://` or `https://` for links
+
+  Usage
+
+      iex> SocialParser.parse("hi @you checkout http://example.com/ that +someone hosted #example")
+      %{
+        tags: ["#example"],
+        mentions: ["@you", "+someone"],
+        links: ["http://example.com/"]
+      }
+
   """
-  def parse_hashtags(message) do
+  def parse(message) do
     message
-    |> parse(%{tags: []}, :tags)
+    |> parse(%{tags: [], mentions: [], links: []})
   end
 
-  @doc """
-  Returns a list of mentions for the given `message` using either the
-  `@name` or `+name` identifiers
-
-      iex> SocialParser.parse_mentions("hello @john its +me")
-      %{mentions: ["@john", "+me"]}
-  """
-  def parse_mentions(message) do
-    message
-    |> parse(%{mentions: []}, :mentions)
+  defp parse(<<>>, state) do
+    state
+    |> Map.put(:tags, Enum.reverse(state[:tags]))
+    |> Map.put(:mentions, Enum.reverse(state[:mentions]))
+    |> Map.put(:links, Enum.reverse(state[:links]))
   end
 
-  defp parse(<<>>, state, type) do
-    Map.put(state, type, Enum.reverse(state[type]))
-  end
-  defp parse(<<?#::utf8, rest::binary>>, state, :tags) do
-    parse_component(rest, state, "#", :tags)
-  end
-  defp parse(<<?@::utf8, rest::binary>>, state, :mentions) do
-    parse_component(rest, state, "@", :mentions)
-  end
-  defp parse(<<?+::utf8, rest::binary>>, state, :mentions) do
-    parse_component(rest, state, "+", :mentions)
-  end
-  defp parse(<<c::utf8, rest::binary>>, state, type) do
-    parse(rest, state, type)
-  end
+  defp parse("http://" <> <<rest::binary>>, state),
+    do: parse_component(rest, state, "//:ptth", :links)
 
-  defp parse_component(<<c::utf8, rest::binary>>, state, value, type) when is_breaking_char(c) do
+  defp parse("https://" <> <<rest::binary>>, state),
+   do: parse_component(rest, state, "//:sptth", :links)
+
+  defp parse(<<?#::utf8, rest::binary>>, state),
+   do: parse_component(rest, state, "#", :tags)
+
+  defp parse(<<?@::utf8, rest::binary>>, state),
+   do: parse_component(rest, state, "@", :mentions)
+
+  defp parse(<<?+::utf8, rest::binary>>, state),
+   do: parse_component(rest, state, "+", :mentions)
+
+  defp parse(<<_::utf8, rest::binary>>, state),
+   do: parse(rest, state)
+
+
+  defp parse_component(<<c::utf8, rest::binary>>, state, value, :links) when is_whitespace(c) do
+    state = add_to_state(state, :links, value)
+    parse(<<c>> <> rest, state)
+  end
+  defp parse_component(<<c::utf8, rest::binary>>, state, value, type) when is_breaking_char(c, type) do
     state = add_to_state(state, type, value)
-    parse(<<c>> <> rest, state, type)
+    parse(<<c>> <> rest, state)
   end
   defp parse_component(<<c::utf8, rest::binary>>, state, value, type) do
     parse_component(rest, state, <<c>> <> value, type)
   end
   defp parse_component(<<>>, state, value, type) do
     state = add_to_state(state, type, value)
-    parse(<<>>, state, type)
+    parse(<<>>, state)
   end
 
   defp add_to_state(state, key, value) do
