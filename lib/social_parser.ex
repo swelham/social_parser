@@ -73,7 +73,6 @@ defmodule SocialParser do
   defp parse(<<_::utf8, rest::binary>>, state),
    do: parse(rest, state)
 
-
   defp parse_component(<<c::utf8, rest::binary>>, state, value, :links) when is_whitespace(c) do
     state = add_to_state(state, :links, value)
     parse(<<c>> <> rest, state)
