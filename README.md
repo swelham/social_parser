@@ -29,9 +29,9 @@ Once installed you can find parse out the social components like so:
 
         IO.inspect(components)
         # %{
-        #    tags: ["#test"]},
+        #    links: ["http://example.com/"]},
         #    mentions: ["@you", "+someone"]},
-        #    links: ["http://example.com/"]}
+        #    tags: ["#test"]}
         # }
     end
   end
