@@ -18,7 +18,7 @@ And then run the mix task to download and compile social_parser:
   mix deps.get
   ```
 
-Once installed you can find parse out the social components like so:
+Once installed you can parse out the social components like so:
 
   ```elixir
   defmodule SocialParserTest do
