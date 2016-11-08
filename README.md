@@ -31,7 +31,7 @@ Once installed you can parse out the social components like so:
         # %{
         #    links: ["http://example.com/"]},
         #    mentions: ["@you", "+someone"]},
-        #    tags: ["#test"]}
+        #    tags: ["#examples"]}
         # }
     end
   end
