@@ -4,25 +4,8 @@ defmodule SocialParser do
   such as hashtags, mentions and urls.
   """
 
-  defmacrop is_whitespace(c) do
-    quote do
-      unquote(c) == ?\s or
-      unquote(c) == ?\t or
-      unquote(c) == ?\n
-    end
-  end
-
-  defmacrop is_breaking_char(c, type) do
-    quote do
-        unquote(type) != :links and
-        (
-          is_whitespace(unquote(c)) or
-          unquote(c) == ?# or
-          unquote(c) == ?@ or
-          unquote(c) == ?+
-        )
-    end
-  end
+  @whitespace_chars [?\s, ?\t, ?\n]
+  @breaking_chars [?#, ?@, ?+ | @whitespace_chars]
 
   @doc """
   Returns a map containing all social components found for the given `message`
@@ -73,11 +56,13 @@ defmodule SocialParser do
   defp parse(<<_::utf8, rest::binary>>, state),
    do: parse(rest, state)
 
-  defp parse_component(<<c::utf8, rest::binary>>, state, value, :links) when is_whitespace(c) do
+  defp parse_component(<<c::utf8, rest::binary>>, state, value, :links)
+      when c in @whitespace_chars do
     state = add_to_state(state, :links, value)
     parse(<<c>> <> rest, state)
   end
-  defp parse_component(<<c::utf8, rest::binary>>, state, value, type) when is_breaking_char(c, type) do
+  defp parse_component(<<c::utf8, rest::binary>>, state, value, type)
+      when type != :links and c in @breaking_chars do
     state = add_to_state(state, type, value)
     parse(<<c>> <> rest, state)
   end
