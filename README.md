@@ -1,5 +1,7 @@
 # SocialParser
 
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/social_parser/lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A small library for parsing out common social elements such as hashtags, mentions and urls.
 
 ## Usage
