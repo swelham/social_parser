@@ -11,7 +11,7 @@ Install by adding `social_parser` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:social_parser, "~> 0.4.0"}]
+  [{:social_parser, "~> 1.0.0"}]
 end
 ```
 
@@ -26,16 +26,21 @@ Once installed you can parse out the social components like so:
 ```elixir
 defmodule SocialParserTest do
   def do_social_stuff() do
-    message = "Hi @you check out http://example.com/ that +someone hosted #examples"
+    message = "hi @you checkout http://example.com/ that +someone hosted #example"
 
     components = SocialParser.parse(message)
 
     IO.inspect(components)
-    # %{
-    #   links: ["http://example.com/"],
-    #   mentions: ["@you", "+someone"],
-    #   tags: ["#examples"]
-    # }
+    # [
+    #   {:text, "hi "},
+    #   {:mention, "@you"},
+    #   {:text, " checkout "},
+    #   {:link, "http://example.com/"},
+    #   {:text, " that "},
+    #   {:mention, "+someone"},
+    #   {:text, " hosted "},
+    #   {:hashtag, "#example"}
+    # ]
   end
 end
 ```

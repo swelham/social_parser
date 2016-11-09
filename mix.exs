@@ -3,7 +3,7 @@ defmodule SocialParser.Mixfile do
 
   def project do
     [app: :social_parser,
-     version: "0.4.0",
+    version: "1.0.0",
      elixir: "~> 1.3",
      description: description(),
      package: package(),
