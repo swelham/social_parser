@@ -44,3 +44,8 @@ defmodule SocialParserTest do
   end
 end
 ```
+
+# TODO
+
+* Merge the private `parse` and `parse_components` functions as there is some duplication of code
+* Add new public parse function that takes an array of tuples used to filter the result
