@@ -8,7 +8,7 @@ defmodule SocialParser do
   @breaking_chars [?#, ?@, ?+ | @whitespace_chars]
 
   @doc """
-  Returns an array tuples containing all components found for the given `message`
+  Returns an array of tuples containing all components found for the given `message`
 
   Prefixes used
 
