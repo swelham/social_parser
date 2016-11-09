@@ -2,7 +2,10 @@ defmodule SocialParserTest do
   use ExUnit.Case
   doctest SocialParser
 
-  @test_message "@you http://example.com/test?a=1&b=abc+123 this is a #test #message with #a few #test tags from +me"
+  @test_message ~S"""
+  @you http://example.com/test?a=1&b=abc+123#abc
+  this is a #test #message with #a few #test tags from +me
+  """
 
   test "parse should return an empty for blank input" do
       components = SocialParser.parse("")
@@ -28,7 +31,7 @@ defmodule SocialParserTest do
     assert components == %{
       tags: ["#test", "#message", "#a", "#test"],
       mentions: ["@you", "+me"],
-      links: ["http://example.com/test?a=1&b=abc+123"]
+      links: ["http://example.com/test?a=1&b=abc+123#abc"]
     }
   end
 end
