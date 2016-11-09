@@ -71,15 +71,14 @@ defmodule SocialParser do
     acc = add_to_acc(acc, :link, value)
     parse(<<c>> <> rest, acc)
   end
+  defp parse_component(<<c::utf8, rest::binary>>, acc, value, :text)
+      when c in @whitespace_chars do
+    parse_component(rest, acc, <<c>> <> value, :text)
+  end
   defp parse_component(<<c::utf8, rest::binary>>, acc, value, type)
       when type != :link and c in @breaking_chars do
-    case c in @whitespace_chars and type == :text do
-      true ->
-        parse_component(rest, acc, <<c>> <> value, type)
-      false ->
-        acc = add_to_acc(acc, type, value)
-        parse(<<c>> <> rest, acc)
-    end
+    acc = add_to_acc(acc, type, value)
+    parse(<<c>> <> rest, acc)
   end
   defp parse_component(<<c::utf8, rest::binary>>, acc, value, type) do
     parse_component(rest, acc, <<c>> <> value, type)
