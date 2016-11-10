@@ -13,7 +13,6 @@ defmodule SocialParserTest do
       assert components == []
   end
 
-  @tag run: true
   test "parse should return an array of all components" do
     components = SocialParser.parse(@test_message)
 
