@@ -37,6 +37,52 @@ defmodule SocialParser do
     |> Enum.reverse
   end
 
+  @doc """
+  Returns a map of all components for a given `message`
+
+  Usage
+
+      iex> SocialParser.extract("hi @you checkout http://example.com/ that +someone hosted #example")
+      %{
+        hashtags: ["#example"],
+        mentions: ["@you", "+someone"],
+        links: ["http://example.com/"],
+        text: ["hi ", " checkout ", " that ", " hosted "]
+      }
+
+  """
+  def extract(message) do
+    message
+    |> parse
+    |> Enum.group_by(&map_key(elem(&1, 0)), &elem(&1, 1))
+  end
+
+  @doc """
+  Returns a map of all components for a given `message` filtered by a list of
+  atoms specified in the `components`
+
+  The available atoms are, `:hashtags`, `:mentions`, `:links` and `:text`
+
+  Usage
+
+      iex> SocialParser.extract("hi @you checkout http://example.com/", [:mentions, :links])
+      %{
+        mentions: ["@you"],
+        links: ["http://example.com/"],
+      }
+
+  """
+  def extract(message, components) do
+    message
+    |> extract
+    |> Map.take(components)
+  end
+
+  defp map_key(:hashtag), do: :hashtags
+  defp map_key(:mention), do: :mentions
+  defp map_key(:link), do: :links
+  defp map_key(key), do: key
+
   defp parse(<<>>, acc),
     do: acc
 

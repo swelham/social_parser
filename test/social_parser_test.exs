@@ -53,4 +53,47 @@ defmodule SocialParserTest do
       {:mention, "+four"}
     ]
   end
+
+  test "extract should return a map containing hashtags" do
+    map = SocialParser.extract(@test_message, [:hashtags])
+
+    assert map == %{
+      hashtags: ["#test", "#message", "#a", "#test"]
+    }
+  end
+
+  test "extract should return a map containing mentions" do
+    map = SocialParser.extract(@test_message, [:mentions])
+
+    assert map == %{
+      mentions: ["@you", "+me"]
+    }
+  end
+
+  test "extract should return a map containing links" do
+    map = SocialParser.extract(@test_message, [:links])
+
+    assert map == %{
+      links: ["http://example.com/test?a=1&b=abc+123#abc"]
+    }
+  end
+
+  test "extract should return a map containing text components" do
+    map = SocialParser.extract(@test_message, [:text])
+
+    assert map == %{
+      text: [" ", "\nthis is a ", " ", " with ", " few ", " tags from ", "\n"]
+    }
+  end
+
+  test "extract should return a map containing all social components" do
+    map = SocialParser.extract(@test_message)
+
+    assert map == %{
+      hashtags: ["#test", "#message", "#a", "#test"],
+      mentions: ["@you", "+me"],
+      links: ["http://example.com/test?a=1&b=abc+123#abc"],
+      text: [" ", "\nthis is a ", " ", " with ", " few ", " tags from ", "\n"]
+    }
+  end
 end
