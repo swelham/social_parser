@@ -45,6 +45,8 @@ defmodule SocialParserTest do
 
     # extract targeted components
     some_components = SocialParser.extract(message, [:hashtags, :mentions])
+
+    IO.inspect(some_components)
     #%{
     #   hashtags: ["#example"],
     #   mentions: ["@you", "+someone"]
