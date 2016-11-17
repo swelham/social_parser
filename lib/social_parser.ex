@@ -86,11 +86,11 @@ defmodule SocialParser do
   defp parse(<<>>, acc),
     do: acc
 
-  defp parse("http://" <> <<rest::binary>>, state),
-    do: parse_component(rest, state, "//:ptth", :link)
+  defp parse("http://" <> <<rest::binary>>, acc),
+    do: parse_component(rest, acc, "//:ptth", :link)
 
-  defp parse("https://" <> <<rest::binary>>, state),
-    do: parse_component(rest, state, "//:sptth", :link)
+  defp parse("https://" <> <<rest::binary>>, acc),
+    do: parse_component(rest, acc, "//:sptth", :link)
 
   defp parse(<<?#::utf8, rest::binary>>, acc),
     do: parse_component(rest, acc, "#", :hashtag)
