@@ -13,7 +13,7 @@ defmodule SocialParserTest do
     assert components == []
   end
 
-  test "parse should return an array of all components" do
+  test "parse/1 should return an array of all components" do
     components = SocialParser.parse(@test_message)
 
     assert components == [
@@ -34,7 +34,7 @@ defmodule SocialParserTest do
     ]
   end
 
-  test "parse should split joined hashtags" do
+  test "parse/1 should split joined hashtags" do
     components = SocialParser.parse("#one#two")
 
     assert components == [
@@ -43,7 +43,7 @@ defmodule SocialParserTest do
     ]
   end
 
-  test "parse should split joined mentions" do
+  test "parse/1 should split joined mentions" do
     components = SocialParser.parse("@one@two+three+four")
 
     assert components == [
@@ -54,7 +54,7 @@ defmodule SocialParserTest do
     ]
   end
 
-  test "extract should return a map containing hashtags" do
+  test "extract/2 should return a map containing hashtags" do
     map = SocialParser.extract(@test_message, [:hashtags])
 
     assert map == %{
@@ -62,7 +62,7 @@ defmodule SocialParserTest do
     }
   end
 
-  test "extract should return a map containing mentions" do
+  test "extract/2 should return a map containing mentions" do
     map = SocialParser.extract(@test_message, [:mentions])
 
     assert map == %{
@@ -70,7 +70,7 @@ defmodule SocialParserTest do
     }
   end
 
-  test "extract should return a map containing links" do
+  test "extract/2 should return a map containing links" do
     map = SocialParser.extract(@test_message, [:links])
 
     assert map == %{
@@ -78,7 +78,7 @@ defmodule SocialParserTest do
     }
   end
 
-  test "extract should return a map containing text components" do
+  test "extract/2 should return a map containing text components" do
     map = SocialParser.extract(@test_message, [:text])
 
     assert map == %{
@@ -86,7 +86,7 @@ defmodule SocialParserTest do
     }
   end
 
-  test "extract should return a map containing all social components" do
+  test "extract/1 should return a map containing all social components" do
     map = SocialParser.extract(@test_message)
 
     assert map == %{
