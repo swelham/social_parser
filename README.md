@@ -7,7 +7,7 @@ A small library for parsing out common social elements such as hashtags, mention
 
 ## Usage
 
-Install by adding `social_parser` to your list of dependencies in `mix.exs`:
+Add `social_parser` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -15,13 +15,7 @@ def deps do
 end
 ```
 
-And then run the mix task to download and compile social_parser:
-
-```shell
-mix deps.get
-```
-
-Once installed you can parse out the social components like so:
+You can then parse out the social components like so:
 
 ```elixir
 defmodule SocialParserTest do
