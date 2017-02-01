@@ -1,7 +1,7 @@
 # SocialParser
 
 [![Join the chat at https://gitter.im/swelham/social_parser](https://badges.gitter.im/swelham/social_parser.svg)](https://gitter.im/swelham/social_parser?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/swelham/social_parser.svg?branch=master)](https://travis-ci.org/swelham/social_parser)
+[![Build Status](https://travis-ci.org/swelham/social_parser.svg?branch=master)](https://travis-ci.org/swelham/social_parser) [![Hex Version](https://img.shields.io/hexpm/v/social_parser.svg)](https://hex.pm/packages/social_parser)
 
 A small library for parsing out common social elements such as hashtags, mentions and urls.
 
