@@ -8,7 +8,8 @@ defmodule SocialParser do
   @breaking_chars [?#, ?@, ?+ | @whitespace_chars]
 
   @doc """
-  Returns an array of tuples containing all components found for the given `message`
+  Returns a list of three element tuples (`{:type, "content", {start_pos, end_pos}}`) containing 
+  all components found for the given `message`
 
   Prefixes used
 
@@ -20,17 +21,17 @@ defmodule SocialParser do
 
       iex> SocialParser.parse("hi @you checkout http://example.com/ that +someone hosted #example")
       [
-        {:text, "hi "},
-        {:mention, "@you"},
-        {:text, " checkout "},
-        {:link, "http://example.com/"},
-        {:text, " that "},
-        {:mention, "+someone"},
-        {:text, " hosted "},
-        {:hashtag, "#example"}
+        {:text, "hi ", {0, 3}},
+        {:mention, "@you", {4, 8}},
+        {:text, " checkout ", {9, 19}},
+        {:link, "http://example.com/", {20, 39}},
+        {:text, " that ", {40, 46}},
+        {:mention, "+someone", {47, 55}},
+        {:text, " hosted ", {56, 64}},
+        {:hashtag, "#example", {65, 73}}
       ]
-
   """
+  @spec parse(binary) :: list
   def parse(message) do
     message
     |> parse([])
@@ -49,7 +50,6 @@ defmodule SocialParser do
         links: ["http://example.com/"],
         text: ["hi ", " checkout ", " that ", " hosted "]
       }
-
   """
   def extract(message) do
     message
@@ -70,7 +70,6 @@ defmodule SocialParser do
         mentions: ["@you"],
         links: ["http://example.com/"],
       }
-
   """
   def extract(message, components) do
     message
@@ -134,7 +133,15 @@ defmodule SocialParser do
   end
 
   defp add_to_acc(acc, key, value) do
+    count = get_next_count(acc)
+
     value = String.reverse(value)
-    [{key, value}] ++ acc
+    value_len = String.length(value)
+    value_pos = {count, count + value_len}
+
+    [{key, value, value_pos}] ++ acc
   end
+
+  defp get_next_count([]), do: 0
+  defp get_next_count([{_, _, {_, count}} | _]), do: count + 1
 end

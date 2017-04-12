@@ -17,20 +17,20 @@ defmodule SocialParserTest do
     components = SocialParser.parse(@test_message)
 
     assert components == [
-      {:mention, "@you"},
-      {:text, " "},
-      {:link, "http://example.com/test?a=1&b=abc+123#abc"},
-      {:text, "\nthis is a "},
-      {:hashtag, "#test"},
-      {:text, " "},
-      {:hashtag, "#message"},
-      {:text, " with "},
-      {:hashtag, "#a"},
-      {:text, " few "},
-      {:hashtag, "#test"},
-      {:text, " tags from "},
-      {:mention, "+me"},
-      {:text, "\n"}
+      {:mention, "@you", {0, 4}},
+      {:text, " ", {5, 6}},
+      {:link, "http://example.com/test?a=1&b=abc+123#abc", {7, 48}},
+      {:text, "\nthis is a ", {49, 60}},
+      {:hashtag, "#test", {61, 66}},
+      {:text, " ", {67, 68}},
+      {:hashtag, "#message", {69, 77}},
+      {:text, " with ", {78, 84}},
+      {:hashtag, "#a", {85, 87}},
+      {:text, " few ", {88, 93}},
+      {:hashtag, "#test", {94, 99}},
+      {:text, " tags from ", {100, 111}},
+      {:mention, "+me", {112, 115}},
+      {:text, "\n", {116, 117}}
     ]
   end
 
@@ -38,8 +38,8 @@ defmodule SocialParserTest do
     components = SocialParser.parse("#one#two")
 
     assert components == [
-      {:hashtag, "#one"},
-      {:hashtag, "#two"}
+      {:hashtag, "#one", {0, 4}},
+      {:hashtag, "#two", {5, 9}}
     ]
   end
 
@@ -47,10 +47,10 @@ defmodule SocialParserTest do
     components = SocialParser.parse("@one@two+three+four")
 
     assert components == [
-      {:mention, "@one"},
-      {:mention, "@two"},
-      {:mention, "+three"},
-      {:mention, "+four"}
+      {:mention, "@one", {0, 4}},
+      {:mention, "@two", {5, 9}},
+      {:mention, "+three", {10, 16}},
+      {:mention, "+four", {17, 22}}
     ]
   end
 
