@@ -51,6 +51,7 @@ defmodule SocialParser do
         text: ["hi ", " checkout ", " that ", " hosted "]
       }
   """
+  @spec extract(binary) :: map
   def extract(message) do
     message
     |> parse
@@ -71,6 +72,7 @@ defmodule SocialParser do
         links: ["http://example.com/"],
       }
   """
+  @spec extract(binary, list) :: map
   def extract(message, components) do
     message
     |> extract
