@@ -27,14 +27,14 @@ defmodule SocialParserTest do
 
     IO.inspect(components)
     # [
-    #   {:text, "hi "},
-    #   {:mention, "@you"},
-    #   {:text, " checkout "},
-    #   {:link, "http://example.com/"},
-    #   {:text, " that "},
-    #   {:mention, "+someone"},
-    #   {:text, " hosted "},
-    #   {:hashtag, "#example"}
+    #   {:text, "hi ", {0, 3}},
+    #   {:mention, "@you", {4, 8}},
+    #   {:text, " checkout ", {9, 19}},
+    #   {:link, "http://example.com/", {20, 39}},
+    #   {:text, " that ", {40, 46}},
+    #   {:mention, "+someone", {47, 55}},
+    #   {:text, " hosted ", {56, 64}},
+    #   {:hashtag, "#example", {65, 73}}
     # ]
 
     # extract targeted components
